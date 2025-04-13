@@ -1,8 +1,10 @@
+"use client"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Briefcase, Building, Users, ArrowRight, Star, TrendingUp, CheckCircle2, Zap, Award } from "lucide-react"
 import Image from "next/image"
+
 
 const LandingSection = () => {
   // Sample data for stats
@@ -34,6 +36,7 @@ const LandingSection = () => {
     { name: "Design", icon: Star },
     { name: "Marketing", icon: Award },
   ]
+
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden py-12 sm:py-16 mt-12 bg-mycolor">
