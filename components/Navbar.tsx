@@ -12,7 +12,8 @@ const Navbar = () => {
   const [open, SetOpen] = useState<Boolean>(false);
   const pathname = usePathname();
   return (
-    <div className="flex gap-5 sm:gap-0 justify-between items-center px-1 py-3 sm:p-4 bg-secondary fixed top-0 z-20 w-full shadow-sm">
+    <div className="h-16 sm:h-18  flex gap-5 sm:gap-0 justify-between items-center px-1 bg-mycolor py-3 sm:p-4  fixed top-0 z-20 w-full ">
+       
       <Link href="/">
         <Image
           alt="logo"
@@ -36,19 +37,19 @@ const Navbar = () => {
       </div>
       <div className="lg:hidden flex flex-col relative items-center justify-center ">
         <Menu
-          size={28}
+          size={30}
           className=" text-custom transition-all duration-300 "
           onClick={() => SetOpen(true)}
         />
 
         <div
-          className={`absolute -top-5 right-0 bg-secondary    h-screen flex flex-col p-3 transition-all duration-300 ease-in-out ${
+          className={`absolute -top-5 -right-2 bg-secondary    h-screen flex flex-col p-3 transition-all duration-300 ease-in-out ${
             open ? "translate-x-0" : "translate-x-full"
           } `}
         >
           <div className="flex flex-col gap-5">
             <SquareX
-              size={28}
+              size={30}
               className=" text-custom transition-all duration-300  "
               onClick={() => SetOpen(false)}
             />
