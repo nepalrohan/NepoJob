@@ -15,10 +15,10 @@ interface JobDetailPageProps {
 
 
 
-export default  function JobDetailPage({ params }: JobDetailPageProps) {
-  const resolvePArams =  params;
+export default    function JobDetailPage({ params }: JobDetailPageProps) {
+  const resolvePArams =   params;
   const jobId = Number.parseInt(resolvePArams.id)
-  const job = jobData.find((job) => job.id === jobId) || jobData[0]
+  const job =  jobData.find((job) => job.id === jobId) || jobData[0]
 
   return (
     <div className="bg-mycolor min-h-screen mt-12">
