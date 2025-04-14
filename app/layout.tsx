@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "NepoJob",
   description: "Land your dream job",
+  icons: {
+    icon: '/Icon.png'
+  },
 };
 
 export default function RootLayout({
@@ -36,3 +39,4 @@ export default function RootLayout({
     </html>
   );
 }
+
