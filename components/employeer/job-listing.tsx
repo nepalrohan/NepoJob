@@ -4,14 +4,13 @@ import { useState } from "react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { PlusCircle, Pencil, Trash2, Building2, MapPin, Clock } from "lucide-react"
+import { PlusCircle, Pencil, Trash2, Building2, MapPin, Clock, Users } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { AddJobDialog } from "./add-job-dialog"
 import { EditJobDialog } from "./edit-job-dialog"
 import { DeleteJobDialog } from "./delete-job-dialog"
-import type { Job, JobFormData } from "@/lib/types";
-
-
+import { useRouter } from "next/navigation"
+import { Job, JobFormData } from "@/lib/types"
 
 // Sample job data - in a real app this would come from an API
 const initialJobs: Job[] = [
@@ -91,6 +90,8 @@ export function JobListings() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false)
   const [selectedJob, setSelectedJob] = useState<Job | null>(null)
 
+  const router = useRouter()
+
   const handleAddJob = (newJob: JobFormData) => {
     const id = (jobs.length + 1).toString()
     const today = new Date().toISOString().split("T")[0]
@@ -134,7 +135,7 @@ export function JobListings() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden ">
       <div className="p-4 sm:p-6 flex justify-between items-center border-b">
         <h2 className="text-xl font-semibold text-custom">Job Listings</h2>
         <Button onClick={() => setIsAddDialogOpen(true)} className="bg-custom hover:bg-hoverColor transition-colors">
@@ -213,6 +214,14 @@ export function JobListings() {
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => router.push(`/employeer/applications/job/${job.id}`)}
+                      className="h-8 text-custom hover:text-hoverColor hover:border-hoverColor"
+                    >
+                      <Users className="h-4 w-4 mr-1" />
+                      View Applications
+                    </Button>
                     <Button
                       variant="outline"
                       size="icon"
