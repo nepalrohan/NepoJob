@@ -15,8 +15,8 @@ interface JobDetailPageProps {
 
 
 
-export default async function JobDetailPage({ params }: JobDetailPageProps) {
-  const resolvePArams = await params;
+export default  function JobDetailPage({ params }: JobDetailPageProps) {
+  const resolvePArams =  params;
   const jobId = Number.parseInt(resolvePArams.id)
   const job = jobData.find((job) => job.id === jobId) || jobData[0]
 
