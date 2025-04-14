@@ -60,8 +60,8 @@ export default function AllJobsPage() {
           {/* Mobile Filter Sheet */}
           {isMobile ? (
             <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen} >
-              <SheetContent side="left" className="w-[85%] sm:w-[350px] p-0 bg-mycolor overflow-y-scroll">
-                <div className="p-4">
+              <SheetContent side="left" className="w-[85%] sm:w-[350px] p-0  bg-mycolor overflow-y-scroll">
+                <div className="p-4 mt-6">
                   <JobFilters isOpen={true} onClose={() => setIsFilterOpen(false)} showCloseButton={false} />
 
                 </div>

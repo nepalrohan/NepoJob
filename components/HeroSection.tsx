@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Briefcase, Building, Users, ArrowRight, Star, TrendingUp, CheckCircle2, Zap, Award } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
 
 const LandingSection = () => {
@@ -65,7 +66,7 @@ const LandingSection = () => {
                   size="lg"
                   className="bg-custom hover:bg-hoverColor text-lg font-semibold text-white cursor-pointer h-14 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group"
                 >
-                  Apply for Jobs
+                 <Link href='/jobs'> Apply for Jobs</Link>
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
                 <Button
@@ -73,7 +74,7 @@ const LandingSection = () => {
                   variant="outline"
                   className="border-2 border-hoverColor/80 text-custom hover:bg-custom/10 text-lg font-semibold cursor-pointer h-14 px-8 rounded-xl transition-all duration-300"
                 >
-                  Post a Job
+                <Link href='/'>  Post a Job</Link>
                 </Button>
               </div>
 

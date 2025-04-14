@@ -58,7 +58,7 @@ export const Footer: FC = () => {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-white opacity-80 hover:text-[#F77300] transition-colors">
+                <Link href="/employeer/dashboard" className="text-white opacity-80 hover:text-[#F77300] transition-colors">
                   For Employers
                 </Link>
               </li>

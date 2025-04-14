@@ -168,6 +168,8 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
                   </div>
                 </div>
 
+
+
                 <Separator />
 
                 <Button className="w-full bg-custom hover:bg-hoverColor cursor-pointer">
