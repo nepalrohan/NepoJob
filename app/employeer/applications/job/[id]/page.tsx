@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { ArrowLeft, Search, SlidersHorizontal, User, Clock, Eye, Filter } from "lucide-react"
+import { ArrowLeft, SlidersHorizontal, User, Clock, Eye, Filter } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -53,11 +53,11 @@ export default function JobApplications() {
 
   if (!job) {
     return (
-      <div className="container mx-auto py-8 px-4 text-center">
+      <div className="container mx-auto py-8 px-4 text-center mt-16">
         <h1 className="text-2xl font-bold text-custom mb-4">Job Not Found</h1>
         <p className="text-gray-600 mb-6">The job you're looking for doesn't exist or has been removed.</p>
         <Button
-          onClick={() => router.push("/employer/dashboard")}
+          onClick={() => router.push("/employeer/dashboard")}
           className="bg-custom hover:bg-hoverColor transition-colors"
         >
           Return to Dashboard
@@ -71,7 +71,7 @@ export default function JobApplications() {
       <Button
         variant="ghost"
         className="mb-6 text-custom hover:text-custom hover:bg-custom/20 bg-custom/10"
-        onClick={() => router.back()}
+        onClick={() => router.push("/employeer/dashboard")}
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Job Listings
