@@ -59,7 +59,7 @@ const Navbar = () => {
         <Input
           type="text"
           placeholder="Search jobs here..."
-          className="border-2 border-custom text-sm  sm:p-4 w-full shadow-lg pr-10 rounded-full text-custom font-semibold"
+          className="border-2 border-custom text-sm  sm:p-4 w-full shadow-lg pr-14 md:pr-15 rounded-full text-custom font-semibold"
         />
 
         <Button className="cursor-pointer absolute right-0  bg-custom rounded-l-none rounded-r-full hover:bg-none">
@@ -132,14 +132,15 @@ const Navbar = () => {
                   className="bg-custom cursor-pointer hover:text-hoverColor text-lg font-semibold rounded-r-none"
                   onClick={() => SetOpen(false)}
                 >
-                  Login
+              <Link href='/login'>   Login</Link>
                 </Button>
                 <Button
                   className="border-custom border-2 text-hoverColor cursor-pointer border-l-0 hover:text-custom rounded-l-none text-lg font-semibold"
                   variant={"outline"}
                   onClick={() => SetOpen(false)}
                 >
-                  Signup
+                        <Link href='/signup'>Signup</Link>
+
                 </Button>
               </div>
             </div>
@@ -194,13 +195,13 @@ const Navbar = () => {
 
         <div className="flex items-center">
           <Button className="bg-custom cursor-pointer hover:text-hoverColor text-lg font-semibold rounded-r-none">
-            Login
+         <Link href='/login'>   Login</Link>
           </Button>
           <Button
             className="border-custom border-2 text-hoverColor cursor-pointer border-l-0 hover:text-custom rounded-l-none text-lg font-semibold"
             variant={"outline"}
           >
-            Signup
+            <Link href='/signup'>Signup</Link>
           </Button>
         </div>
       </div>
