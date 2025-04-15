@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model for both job seekers and employers
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  fullName  String
+  role      UserRole
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile       Profile?
+  jobs          Job[]            @relation("UserJobs") // For employers
+  applications  JobApplication[] @relation("UserApplications") // For job seekers
+  favouriteJobs Favourites[]
+}
+
+enum UserRole {
+  JOBSEEKER
+  EMPLOYER
+}
+
+// Job model
+model Job {
+  id                 String    @id @default(cuid())
+  title              String
+  company            String
+  logo               String?
+  location           String
+  type               String
+  salary             String
+  experience         String
+  posted             DateTime  @default(now())
+  status             JobStatus @default(ACTIVE)
+  description        String    @db.Text
+  responsibilities   String    @db.Text
+  requirements       String    @db.Text
+  benefits           String    @db.Text
+  companyDescription String    @db.Text
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  // Relations
+  employerId   String
+  employer     User             @relation("UserJobs", fields: [employerId], references: [id])
+  applications JobApplication[]
+  favouritesBy Favourites[]
+}
+
+enum JobStatus {
+  ACTIVE
+  CLOSED
+  DRAFT
+}
+
+// Job Application model
+model JobApplication {
+  id               String            @id @default(cuid())
+  jobId            String
+  job              Job               @relation(fields: [jobId], references: [id])
+  applicantId      String
+  applicant        User              @relation("UserApplications", fields: [applicantId], references: [id])
+  appliedDate      DateTime          @default(now())
+  status           ApplicationStatus @default(PENDING)
+  statusUpdateDate DateTime?
+  notes            String?           @db.Text
+  matchScore       Int?
+  interviewDate    String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWING
+  ACCEPTED
+  REJECTED
+}
+
+// Favourite Jobs model for job seekers to save favourite jobs
+model Favourites {
+  id      String   @id @default(cuid())
+  userId  String
+  jobId   String
+  savedAt DateTime @default(now())
+
+  // Add these relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  job  Job  @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, jobId])
+}
+
+// Profile model for user details
+model Profile {
+  id                String    @id @default(cuid())
+  userId            String    @unique
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName         String
+  lastName          String
+  phone             String?
+  currentRole       String?
+  experience        String?
+  skills            String[]
+  noticePeriod      String?
+  expectedSalary    String?
+  resumeUrl         String?
+  resumeFileName    String?
+  coverLetterUrl    String?
+  preferredWorkType WorkType?
+  willingToRelocate Boolean   @default(false)
+  about             String?
+  profilePicture    String?
+  location          String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+enum WorkType {
+  ONSITE
+  REMOTE
+  HYBRID
+}
