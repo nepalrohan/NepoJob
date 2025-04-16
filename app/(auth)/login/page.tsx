@@ -19,13 +19,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Briefcase, User } from "lucide-react";
+import axios from "axios";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
   password: z
     .string()
     .min(8, { message: "Password must be at least 8 characters" }),
-  role: z.enum(["employer", "jobseeker"], {
+  role: z.enum(["EMPLOYER", "JOBSEEKER"], {
     required_error: "Please select a role",
   }),
 });
@@ -41,22 +42,27 @@ export default function LoginPage() {
     defaultValues: {
       email: "",
       password: "",
-      role: "jobseeker",
+      role: "JOBSEEKER",
     },
   });
 
   async function onSubmit(data: LoginFormValues) {
     setIsLoading(true);
-
+    // const url = process.env.NEXT_PUBLIC_DOMAIN;
     try {
-      // Here you would handle the login logic
-      console.log(data);
-
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Redirect to dashboard or home page
-      router.push("/");
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      if (response.data.user) {
+        router.push("/");
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -125,7 +131,7 @@ export default function LoginPage() {
                     className="flex gap-4"
                   >
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="jobseeker" id="jobseeker" />
+                      <RadioGroupItem value="JOBSEEKER" id="jobseeker" />
                       <Label
                         htmlFor="jobseeker"
                         className="flex items-center gap-1 cursor-pointer"
@@ -135,7 +141,7 @@ export default function LoginPage() {
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="employer" id="employer" />
+                      <RadioGroupItem value="EMPLOYER" id="employer" />
                       <Label
                         htmlFor="employer"
                         className="flex items-center gap-1 cursor-pointer"

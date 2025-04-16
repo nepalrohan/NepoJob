@@ -64,7 +64,6 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-     console.log("Frontend data", data);
       const { confirmPassword, ...signupData } = data;
       const response = await axios.post(
         "http://localhost:3000/api/auth/signup",
