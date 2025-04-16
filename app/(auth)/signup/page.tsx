@@ -1,5 +1,5 @@
 "use client";
-
+import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -33,7 +33,7 @@ const signupSchema = z
     confirmPassword: z
       .string()
       .min(8, { message: "Password must be at least 8 characters" }),
-    role: z.enum(["employer", "jobseeker"], {
+    role: z.enum(["EMPLOYER", "JOBSEEKER"], {
       required_error: "Please select a role",
     }),
   })
@@ -56,7 +56,7 @@ export default function SignupPage() {
       email: "",
       password: "",
       confirmPassword: "",
-      role: "jobseeker",
+      role: "JOBSEEKER",
     },
   });
 
@@ -64,18 +64,22 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-      // Here you would handle the signup logic
-      console.log(data);
-
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
+     console.log("Frontend data", data);
+      const { confirmPassword, ...signupData } = data;
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/signup",
+        signupData,
+       { headers: {
+          'Content-Type': 'application/json'
+        }}
+      );
       setIsSuccess(true);
 
       // Redirect after showing success message
       setTimeout(() => {
         router.push("/login");
       }, 1000);
+     
     } catch (error) {
       console.error(error);
     } finally {
@@ -85,7 +89,7 @@ export default function SignupPage() {
 
   if (isSuccess) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-mycolor px-4 py-12 mt-12 sm:mt-0">
+      <div className="flex min-h-screen items-center justify-center bg-mycolor px-4 py-12 mt-12 ">
         <Card className="w-full max-w-md border-2 border-custom shadow-lg">
           <CardHeader className="space-y-1">
             <div className="flex justify-center">
@@ -207,7 +211,7 @@ export default function SignupPage() {
                     className="flex gap-4"
                   >
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="jobseeker" id="jobseeker" />
+                      <RadioGroupItem value="JOBSEEKER" id="jobseeker" />
                       <Label
                         htmlFor="jobseeker"
                         className="flex items-center gap-1 cursor-pointer"
@@ -217,7 +221,7 @@ export default function SignupPage() {
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="employer" id="employer" />
+                      <RadioGroupItem value="EMPLOYER" id="employer" />
                       <Label
                         htmlFor="employer"
                         className="flex items-center gap-1 cursor-pointer"
