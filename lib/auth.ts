@@ -1,4 +1,4 @@
-import type { NextRequest } from "next/server"
+import type { NextRequest, NextResponse } from "next/server"
 import { SignJWT, jwtVerify } from "jose"
 import { cookies } from "next/headers"
 import type { User } from "@/lib/generated/prisma"
@@ -27,9 +27,8 @@ export async function createToken(user: Partial<User>) {
 }
 
 // Set the token in cookies
-export  async function setTokenCookie(token: string) {
-    const cookieStore = await cookies();
-    cookieStore.set({
+export function setTokenCookie(response: NextResponse, token: string) {
+  response.cookies.set({
     name: "token",
     value: token,
     httpOnly: true,
@@ -39,7 +38,6 @@ export  async function setTokenCookie(token: string) {
     sameSite: "strict",
   })
 }
-
 // Get the token from cookies
 export  async function getTokenCookie() {
     const cookieStore = await cookies();

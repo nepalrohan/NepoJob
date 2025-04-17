@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,7 +19,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Briefcase, User } from "lucide-react";
-import axios from "axios";
+import { useAppDispatch,useAppSelector  } from "@/lib/hooks";
+import { loginUser } from "@/lib/features/authSlice";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -33,9 +34,11 @@ const loginSchema = z.object({
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
+
 export default function LoginPage() {
+  const dispatch = useAppDispatch();
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const { user, loading, error } = useAppSelector((state) => state.auth);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -47,31 +50,17 @@ export default function LoginPage() {
   });
 
   async function onSubmit(data: LoginFormValues) {
-    setIsLoading(true);
-    // const url = process.env.NEXT_PUBLIC_DOMAIN;
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      if (response.data.user) {
-        router.push("/");
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+ 
+    dispatch(loginUser(data));
   }
 
+  useEffect(() => {
+    if (user) {
+      router.push(user.role === "EMPLOYER" ? "/employer/dashboard" : "/jobseeker/dashboard")
+    }
+  }, [user, router])
   return (
-    <div className="flex min-h-screen items-center justify-center bg-mycolor px-4 py-12">
+    <div className="flex min-h-screen items-center justify-center bg-mycolor px-4 py-12 mt-14">
       <Card className="w-full max-w-md border-2 border-custom shadow-lg">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center text-custom">
@@ -172,9 +161,9 @@ export default function LoginPage() {
             <Button
               type="submit"
               className="w-full bg-custom hover:bg-custom/90 hover:text-hoverColor transition-colors"
-              disabled={isLoading}
+              disabled={loading}
             >
-              {isLoading ? "Signing in..." : "Log In"}
+              {loading ? "Signing in..." : "Log In"}
             </Button>
           </form>
         </CardContent>

@@ -24,6 +24,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useAppSelector } from "@/lib/hooks";
 
 // Job categories list
 const jobCategories = [
@@ -42,6 +43,9 @@ const jobCategories = [
 const Navbar = () => {
   const [open, SetOpen] = useState<Boolean>(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+    const { user } = useAppSelector((state) => state.auth);
+
+  
   const pathname = usePathname();
   return (
     <div className="h-16 sm:h-18  flex gap-5 sm:gap-0 justify-between items-center px-1 bg-mycolor py-3 sm:p-4  fixed top-0 z-20 w-full ">
@@ -86,6 +90,9 @@ const Navbar = () => {
             />
 
             <div className="flex flex-col items-start gap-5 bg-mycolor">
+
+             {
+              user?.role ==='JOBSEEKER' ?  <div className="flex flex-col items-start gap-5 bg-mycolor">
               {MenuList.map((item, index) => {
                 const Icon = item.icon;
 
@@ -103,6 +110,8 @@ const Navbar = () => {
                   </Link>
                 );
               })}
+              </div>:null
+             }
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="text-lg text-custom font-semibold hover:text-hoverColor flex gap-1 items-center cursor-pointer">
@@ -128,6 +137,8 @@ const Navbar = () => {
               </DropdownMenu>
 
               <div className="flex items-center">
+              {
+                user && user ===null ? (  <>
                 <Button
                   className="bg-custom cursor-pointer hover:text-hoverColor text-lg font-semibold rounded-r-none"
                   onClick={() => SetOpen(false)}
@@ -141,7 +152,16 @@ const Navbar = () => {
                 >
                         <Link href='/signup'>Signup</Link>
 
-                </Button>
+                </Button></>):(<>
+                  <Button
+                  className="border-custom border-2 text-hoverColor cursor-pointer  hover:text-custom text-lg font-semibold"
+                  variant={"outline"}
+                  onClick={() => SetOpen(false)}
+                >
+                        <Link href='/logout'>Logout</Link>
+
+                </Button></>)
+              }
               </div>
             </div>
           </div>
@@ -149,21 +169,27 @@ const Navbar = () => {
       </div>
 
       <div className="hidden lg:flex items-center gap-6">
-        {MenuList.map((item, index) => {
-          const Icon = item.icon;
-          return (
-            <Link
-              key={index}
-              href={item.path}
-              className={`text-lg text-custom font-semibold hover:text-hoverColor flex gap-1 items-center ${
-                pathname === item.path ? "text-hoverColor " : ""
-              }`}
-            >
-              {Icon && <Icon />}
-              {item.name}
-            </Link>
-          );
-        })}
+      {
+              user?.role ==='JOBSEEKER' ?  <div  className="hidden lg:flex items-center gap-6">
+              {MenuList.map((item, index) => {
+                const Icon = item.icon;
+
+                return (
+                  <Link
+                    onClick={() => SetOpen(false)}
+                    key={index}
+                    href={item.path}
+                    className={`text-lg text-custom font-semibold hover:text-hoverColor flex gap-1 items-center ${
+                      pathname === item.path ? "text-hoverColor " : ""
+                    }`}
+                  >
+                    {Icon && <Icon />}
+                    {item.name}
+                  </Link>
+                );
+              })}
+              </div>:null
+             }
         <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
           <PopoverTrigger asChild>
             <button
@@ -194,15 +220,31 @@ const Navbar = () => {
         </Popover>
 
         <div className="flex items-center">
-          <Button className="bg-custom cursor-pointer hover:text-hoverColor text-lg font-semibold rounded-r-none">
-         <Link href='/login'>   Login</Link>
-          </Button>
-          <Button
-            className="border-custom border-2 text-hoverColor cursor-pointer border-l-0 hover:text-custom rounded-l-none text-lg font-semibold"
-            variant={"outline"}
-          >
-            <Link href='/signup'>Signup</Link>
-          </Button>
+        {
+                user && user ===null ? (  <>
+                <Button
+                  className="bg-custom cursor-pointer hover:text-hoverColor text-lg font-semibold rounded-r-none"
+                  onClick={() => SetOpen(false)}
+                >
+              <Link href='/login'>   Login</Link>
+                </Button>
+                <Button
+                  className="border-custom border-2 text-hoverColor cursor-pointer border-l-0 hover:text-custom rounded-l-none text-lg font-semibold"
+                  variant={"outline"}
+                  onClick={() => SetOpen(false)}
+                >
+                        <Link href='/signup'>Signup</Link>
+
+                </Button></>):(<>
+                  <Button
+                  className="border-custom border-2 text-hoverColor cursor-pointer  hover:text-custom  text-lg font-semibold"
+                  variant={"outline"}
+                  onClick={() => SetOpen(false)}
+                >
+                        <Link href='/logout'>Logout</Link>
+
+                </Button></>)
+              }
         </div>
       </div>
     </div>

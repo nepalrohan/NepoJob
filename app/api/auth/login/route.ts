@@ -52,15 +52,19 @@ export async function POST(request: NextRequest) {
     const token = await createToken(user)
 
     // Set token in cookies
-    setTokenCookie(token)
+
 
     // Return user data (without password)
     const { password: _, ...userWithoutPassword } = user
 
-    return NextResponse.json({
+    const response =  NextResponse.json({
       message: "Login successful",
       user: userWithoutPassword,
     })
+
+    setTokenCookie(response, token);
+
+  return response;
   } catch (error) {
     console.error("Login error:", error)
     return NextResponse.json({ error: "Failed to login" }, { status: 500 })
